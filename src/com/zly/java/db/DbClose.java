@@ -24,7 +24,6 @@ public final class DbClose {
 				pStatement.close();
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		try {
@@ -32,7 +31,6 @@ public final class DbClose {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
@@ -47,7 +45,6 @@ public final class DbClose {
 				pStatement.close();
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		try {
@@ -55,14 +52,13 @@ public final class DbClose {
 				rSet.close();
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		try {
 			if (connection != null) {
 				connection.close();
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}

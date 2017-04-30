@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.zly.java.dao.GoodsDao;
+import com.zly.java.db.DbClose;
 import com.zly.java.db.DbOpen;
 import com.zly.java.entity.Goods;
+import com.zly.java.entity.SalesMan;
 
 /**
  * 查询&&打印 函数工具(后期优化可能会删)
@@ -26,6 +29,34 @@ public final class QueryPrint {
 	 */
 	public static int querySettlement() {
 		int gid = -1;
+		// 调用 关键字查询函数
+		ArrayList<Goods> goodsSettlement = new GoodsDao().queryGoods(3);
+		if (goodsSettlement == null || goodsSettlement.size() <= 0) {
+			System.out.println("\t 未查询到此商品 \t");
+			gid = -3;
+		} else {
+			// 查询到商品，实现更改商品信息的操作
+			System.out.println("\t\t\t\t\t商品列表\n\n");
+			System.out.println("\t商品编号\t\t商品名称\t\t商品价格\t\t商品数量\t\t备注\n");
+			for (int index = 0; index < goodsSettlement.size(); index++) {
+				Goods goods = goodsSettlement.get(index);
+				if (goods.getGnum() > 0) {
+					System.out.println("\t" + goods.getGid() + "\t\t" + goods.getGname() + "\t\t" + goods.getGprice() + "\t\t" + goods.getGnum());
+					if (goods.getGnum() == 0) {
+						System.out.println("\t\t该商品已售空");
+					} else if (goods.getGnum() < 10) {
+						System.out.println("\t\t该商品已不足10件");
+					} else {
+						System.out.println("\t\t-");
+					}
+					if (goodsSettlement.size() == 1) {
+						gid = goods.getGid();
+					} else {
+						gid = -2;
+					}
+				}
+			}
+		}
 		return gid;
 	}
 	
@@ -91,5 +122,50 @@ public final class QueryPrint {
 		}
 		return goodsList;
 	}
+	
+	/**
+	 * 精确查询售货员信息
+	 * @param 售货员名字
+	 * @return 
+	 */
+	public ArrayList<SalesMan> querySalesMan(String sName) {
+		ArrayList<SalesMan> salesManList = new ArrayList<SalesMan>();
+		connection = DbOpen.getconn();
+		String sql = "SELECT * FROM SALESMAN WHERE SNAME=?";
+		try {
+			pStatement = connection.prepareStatement(sql);
+			pStatement.setString(1, sName);
+			rSet = pStatement.executeQuery();
+			while (rSet.next()) {
+				int sId = rSet.getInt("sId");
+				String sname = rSet.getString(2);
+				String sPassword = rSet.getString(3);
+				
+				SalesMan salesMan = new SalesMan(sId, sname, sPassword);
+				salesManList.add(salesMan);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbClose.queryClose(pStatement, rSet, connection);
+		}
+		return salesManList;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

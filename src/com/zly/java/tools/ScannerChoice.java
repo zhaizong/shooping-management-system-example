@@ -7,7 +7,7 @@ import com.zly.java.page.GoodsPage;
 /**
  * 1.各种完成操作后的，选择下一步
  * 2.界面选择操作
- * @author
+ * @author 赵林洋
  * @version 1.0
  * */
 public class ScannerChoice {
@@ -91,4 +91,40 @@ public class ScannerChoice {
 			System.out.println("\n输入有误！请重新输入.");
 		} while (true);
 	}
+	
+	/**
+	 * 获取用户-添加-完售货员-下一步
+	 * 获取用户-删除-完售货员-下一步
+	 * 获取用户-更改-完售货员-下一步
+	 * 获取用户-查询-完售货员-下一步
+	 * @param 调用者
+	 */
+	public static void choiceSalesManNext(String oper) {
+		do {
+			System.out.println("是否继续进行-(Y/N)");
+			String choice = scannerInfoString();
+			if ("y".equals(choice) || "Y".equals(choice)) {
+				// 下面的嵌套if-else 是让用户选择继续操作当前步骤所跳转到指定页面。（因为不同函数调用，跳转的指定函数不同）
+				if ("updateSalesMan".equals(oper)) {
+					
+				}
+			}
+		} while (true);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
